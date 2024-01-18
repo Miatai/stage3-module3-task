@@ -45,7 +45,7 @@ public class NewsRepository implements BaseRepository<News, Long> {
 
     @Override
     public Optional<News> readById(Long newsId) {
-        return Optional.of(entityManager.find(News.class, newsId));
+        return Optional.ofNullable(entityManager.find(News.class, newsId));
     }
 
     @Override
