@@ -10,21 +10,17 @@ import com.mjc.school.controller.annotation.CommandBody;
 import com.mjc.school.controller.annotation.CommandHandler;
 import com.mjc.school.controller.annotation.CommandParam;
 import com.mjc.school.service.BaseService;
-import com.mjc.school.service.ReadByNewsIdSevice;
 import com.mjc.school.service.dto.TagDtoRequest;
 import com.mjc.school.service.dto.TagDtoResponse;
 
 @Controller
 public class TagController implements BaseController<TagDtoRequest, TagDtoResponse, Long> {
     private final BaseService<TagDtoRequest, TagDtoResponse, Long> tagService;
-    private final ReadByNewsIdSevice<TagDtoResponse, Long> tagReadByNewsIdService;
 
     @Autowired
     public TagController(
-            final BaseService<TagDtoRequest, TagDtoResponse, Long> tagService,
-            final ReadByNewsIdSevice<TagDtoResponse, Long> tagReadByNewsIdService) {
+            final BaseService<TagDtoRequest, TagDtoResponse, Long> tagService) {
         this.tagService = tagService;
-        this.tagReadByNewsIdService = tagReadByNewsIdService;
     }
 
     @Override
@@ -55,10 +51,5 @@ public class TagController implements BaseController<TagDtoRequest, TagDtoRespon
     @CommandHandler(operation = 15)
     public boolean deleteById(@CommandParam(name = "id") Long id) {
         return tagService.deleteById(id);
-    }
-
-    @CommandHandler(operation = 17)
-    public List<TagDtoResponse> readByNewsId(@CommandParam(name = "newsId") Long newsId) {
-        return tagReadByNewsIdService.readByNewsId(newsId);
     }
 }

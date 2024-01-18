@@ -11,12 +11,12 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import com.mjc.school.repository.BaseRepository;
 import com.mjc.school.repository.model.Author;
 
-@Component
+@Repository
 public class AuthorRepository implements BaseRepository<Author, Long> {
     private EntityManagerFactory entityManagerFactory;
     private EntityManager entityManager;

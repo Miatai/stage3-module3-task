@@ -10,22 +10,20 @@ import com.mjc.school.controller.annotation.CommandBody;
 import com.mjc.school.controller.annotation.CommandHandler;
 import com.mjc.school.controller.annotation.CommandParam;
 import com.mjc.school.service.BaseService;
-import com.mjc.school.service.ReadByParams;
+import com.mjc.school.service.dto.AuthorDtoResponse;
 import com.mjc.school.service.dto.NewsDtoRequest;
 import com.mjc.school.service.dto.NewsDtoResponse;
 import com.mjc.school.service.dto.NewsParamsDtoRequest;
+import com.mjc.school.service.dto.TagDtoResponse;
+import com.mjc.school.service.impl.NewsService;
 
 @Controller
 public class NewsController implements BaseController<NewsDtoRequest, NewsDtoResponse, Long> {
-
   private final BaseService<NewsDtoRequest, NewsDtoResponse, Long> newsService;
-  private final ReadByParams<NewsDtoResponse, NewsParamsDtoRequest> newsReadByParamsService;
 
   @Autowired
-  public NewsController(final BaseService<NewsDtoRequest, NewsDtoResponse, Long> newsService,
-  final ReadByParams<NewsDtoResponse, NewsParamsDtoRequest> newsReadByParamsService) {
+  public NewsController(final BaseService<NewsDtoRequest, NewsDtoResponse, Long> newsService) {
     this.newsService = newsService;
-    this.newsReadByParamsService = newsReadByParamsService;
   }
 
   @Override
@@ -58,8 +56,18 @@ public class NewsController implements BaseController<NewsDtoRequest, NewsDtoRes
     return newsService.deleteById(id);
   }
 
+  @CommandHandler(operation = 16)
+  public List<AuthorDtoResponse> readAuthorByNewsId(@CommandParam(name = "newsId") Long newsId) {
+    return ((NewsService)newsService).readAuthorByNewsId(newsId);
+  }
+
+  @CommandHandler(operation = 17)
+  public List<TagDtoResponse> readTagsByNewsId(@CommandParam(name = "newsId") Long newsId) {
+    return ((NewsService)newsService).readTagsByNewsId(newsId);
+  }
+
   @CommandHandler(operation = 18)
   public List<NewsDtoResponse> readByParams(@CommandBody NewsParamsDtoRequest params) {
-    return newsReadByParamsService.readByParams(params);
+    return ((NewsService)newsService).readByParams(params);
   }
 }
