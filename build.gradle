@@ -25,7 +25,7 @@ subprojects {
         testImplementation "org.junit.jupiter:junit-jupiter-api:$jupiterVersion"
         testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$jupiterVersion"
 
-        testImplementation 'com.tngtech.archunit:archunit-junit5:1.2.1'
+        implementation 'com.tngtech.archunit:archunit-junit5:1.2.1'
         implementation "org.springframework.boot:spring-boot-starter-data-jpa:$springbootVersion"
 
         implementation "com.h2database:h2:$h2Version"
@@ -33,6 +33,8 @@ subprojects {
         implementation "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
         implementation group: 'javax.persistence', name: 'javax.persistence-api', version: "$javaxVersion"
         implementation group: 'javax.xml.bind', name: 'jaxb-api', version: "$jaxbApiVersion"
+
+        testImplementation 'org.assertj:assertj-core:3.24.2'
 
     }
 
