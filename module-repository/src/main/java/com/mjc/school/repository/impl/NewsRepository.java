@@ -16,14 +16,14 @@ import javax.persistence.criteria.Root;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.mjc.school.repository.BaseRepository;
+import com.mjc.school.repository.BaseRepositoryWithNewFunctionality;
 import com.mjc.school.repository.model.Author;
 import com.mjc.school.repository.model.News;
+import com.mjc.school.repository.model.NewsParams;
 import com.mjc.school.repository.model.Tag;
-import com.mjc.school.repository.utils.NewsParams;
 
 @Repository
-public class NewsRepository implements BaseRepository<News, Long> {
+public class NewsRepository implements BaseRepositoryWithNewFunctionality<News, Long, NewsParams> {
     private EntityManagerFactory entityManagerFactory;
     private EntityManager entityManager;
 
@@ -89,6 +89,7 @@ public class NewsRepository implements BaseRepository<News, Long> {
         return readById(newsId) != null;
     }
 
+    @Override
     public List<News> readByParams(NewsParams params) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<News> cq = cb.createQuery(News.class);

@@ -9,20 +9,20 @@ import com.mjc.school.controller.BaseController;
 import com.mjc.school.controller.annotation.CommandBody;
 import com.mjc.school.controller.annotation.CommandHandler;
 import com.mjc.school.controller.annotation.CommandParam;
-import com.mjc.school.service.BaseService;
+import com.mjc.school.service.BaseServiceWithNewFunctionality;
 import com.mjc.school.service.dto.AuthorDtoResponse;
 import com.mjc.school.service.dto.NewsDtoRequest;
 import com.mjc.school.service.dto.NewsDtoResponse;
 import com.mjc.school.service.dto.NewsParamsDtoRequest;
 import com.mjc.school.service.dto.TagDtoResponse;
-import com.mjc.school.service.impl.NewsService;
 
 @Controller
 public class NewsController implements BaseController<NewsDtoRequest, NewsDtoResponse, Long> {
-  private final BaseService<NewsDtoRequest, NewsDtoResponse, Long> newsService;
+  private final BaseServiceWithNewFunctionality<NewsDtoRequest, NewsDtoResponse, Long, NewsParamsDtoRequest, AuthorDtoResponse, TagDtoResponse> newsService;
 
   @Autowired
-  public NewsController(final BaseService<NewsDtoRequest, NewsDtoResponse, Long> newsService) {
+  public NewsController(
+      final BaseServiceWithNewFunctionality<NewsDtoRequest, NewsDtoResponse, Long, NewsParamsDtoRequest, AuthorDtoResponse, TagDtoResponse> newsService) {
     this.newsService = newsService;
   }
 
@@ -58,16 +58,16 @@ public class NewsController implements BaseController<NewsDtoRequest, NewsDtoRes
 
   @CommandHandler(operation = 16)
   public List<AuthorDtoResponse> readAuthorByNewsId(@CommandParam(name = "newsId") Long newsId) {
-    return ((NewsService)newsService).readAuthorByNewsId(newsId);
+    return newsService.readAuthorByNewsId(newsId);
   }
 
   @CommandHandler(operation = 17)
   public List<TagDtoResponse> readTagsByNewsId(@CommandParam(name = "newsId") Long newsId) {
-    return ((NewsService)newsService).readTagsByNewsId(newsId);
+    return newsService.readTagsByNewsId(newsId);
   }
 
   @CommandHandler(operation = 18)
   public List<NewsDtoResponse> readByParams(@CommandBody NewsParamsDtoRequest params) {
-    return ((NewsService)newsService).readByParams(params);
+    return newsService.readByParams(params);
   }
 }

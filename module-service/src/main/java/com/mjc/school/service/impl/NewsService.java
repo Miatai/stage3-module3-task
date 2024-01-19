@@ -13,10 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mjc.school.repository.BaseRepository;
+import com.mjc.school.repository.BaseRepositoryWithNewFunctionality;
 import com.mjc.school.repository.impl.NewsRepository;
 import com.mjc.school.repository.model.Author;
 import com.mjc.school.repository.model.News;
-import com.mjc.school.service.BaseService;
+import com.mjc.school.repository.model.NewsParams;
+import com.mjc.school.service.BaseServiceWithNewFunctionality;
 import com.mjc.school.service.dto.AuthorDtoResponse;
 import com.mjc.school.service.dto.NewsDtoRequest;
 import com.mjc.school.service.dto.NewsDtoResponse;
@@ -28,15 +30,16 @@ import com.mjc.school.service.mapper.NewsParamsMapper;
 import com.mjc.school.service.validator.Valid;
 
 @Service("newsService")
-public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse, Long> {
-  private final NewsRepository newsRepository;
+public class NewsService implements
+    BaseServiceWithNewFunctionality<NewsDtoRequest, NewsDtoResponse, Long, NewsParamsDtoRequest, AuthorDtoResponse, TagDtoResponse> {
+  private final BaseRepositoryWithNewFunctionality<News, Long, NewsParams> newsRepository;
   private final BaseRepository<Author, Long> authorRepository;
   private final NewsMapper mapper;
   private final NewsParamsMapper paramsMapper;
 
   @Autowired
   public NewsService(
-      final NewsRepository newsRepository,
+      final BaseRepositoryWithNewFunctionality<News, Long, NewsParams> newsRepository,
       final BaseRepository<Author, Long> authorRepository,
       final NewsMapper mapper,
       final NewsParamsMapper paramsMapper) {
@@ -120,8 +123,8 @@ public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse,
   }
 
   public List<TagDtoResponse> readTagsByNewsId(Long newsId) {
-        NewsDtoResponse newsDto = this.readById(newsId);
-        List<TagDtoResponse> tagsList =  List.copyOf(newsDto.tagDtos());
-        return tagsList;
-    }
+    NewsDtoResponse newsDto = this.readById(newsId);
+    List<TagDtoResponse> tagsList = List.copyOf(newsDto.tagDtos());
+    return tagsList;
+  }
 }

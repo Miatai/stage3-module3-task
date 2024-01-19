@@ -1,8 +1,8 @@
-package com.mjc.school.repository.utils;
+package com.mjc.school.repository.model;
 
 import java.util.Set;
 
-public class NewsParams implements Params{
+public class NewsParams {
     private String title;
     private String content;
     private String authorName;
